@@ -1,0 +1,15 @@
+<?php
+function acme_preprocess_page(&$variables) {
+  $variables['copyright'] = t('Copyright @date', array('@date' => date('Y')));
+}
+
+function acme_theme_suggestions_node_alter (&$suggestions, $variables, $hook) {
+  if (\Drupal::currentUser()->isAuthenticated()) {
+    $bundle = $variables['elements']['#node']->bundle();
+    $mode = $variables['elements']['#view_mode'];
+    $view_mode = strtr($mode, '.', ' _');
+
+    $suggestions[] = 'node__'.$bundle.'__logged_in';
+    $suggestions[] = 'node__'.$view_mode.'__logged_in';
+  }
+}
