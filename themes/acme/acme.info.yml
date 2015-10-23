@@ -15,5 +15,6 @@ regions:
     sidebar_first: 'Left Sidebar'
     sidebar_second: 'Right Sidebar'
     footer: Footer
+    footer_top: 'Footer Top'
     page_top: 'Page Top'
     page_bottom: 'Page Bottom'

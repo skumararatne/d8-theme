@@ -1,0 +1,31 @@
+<?php 
+/**
+  * Implements hook_preprocess_page()
+  *
+  */
+function acme_preprocess_page(&$variables) {
+	$variables['copyright'] = t('Copyright @date', array('@date' => date('Y')));
+	$variables['copyright_holder'] = '';
+	$name = \Drupal::config('system.site')->get('name');
+
+	if(!empty($name)) {
+		$variables['copyright_holder'] = $name;
+	}
+}
+
+/**
+  * Implements hook_theme_suggestions_node_alter()
+  *
+  */
+function acme_theme_suggestions_node_alter(&$suggestions, $variables, $hook) {
+	if(\Drupal::currentUser()->isAuthenticated()) {
+		$elements = $variables['elements'];
+		$bundle = $elements['#node']->bundle();
+		$mode = $elements['#view_mode'];
+
+		$view_mode = strtr($mode, '.', '_');
+		
+		$suggestions[] = 'node__' . $bundle . '__logged_in';
+		$suggestions[] = 'node__' . $view_mode . '__logged_in';
+	}
+}
